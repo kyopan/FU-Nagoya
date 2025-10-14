@@ -1,6 +1,6 @@
 # Fragmentations of Unity (FU)
 
-名古屋市芸術創造センター　群ロボットインスタレーション
+Common Nexus（ComoNe）群ロボットインスタレーション
 
 ## プロジェクト概要
 
