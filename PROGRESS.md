@@ -151,7 +151,7 @@ graph TB
 ### 7. 評価ボード設計 🔬
 
 **完了日**: 2025-10-17（ミーティングで方針確定）
-**成果物**: [notes/meeting-2025-10-17-progress-review.md](notes/meeting-2025-10-17-progress-review.md)
+**成果物**: [docs/meetings/meeting-2025-10-17-progress-review.md](docs/meetings/meeting-2025-10-17-progress-review.md)
 
 **設計目標**:
 - LED配置の最適化（2パターンを実験的に検証）
@@ -256,11 +256,16 @@ graph TB
 | [esp32s3-pinout-assignment.md](docs/specs/esp32s3-pinout-assignment.md) | ESP32-S3ピンアサイン確定版（実際のボード配置） |
 | [wpcbb-pinout-analysis.md](docs/specs/wpcbb-pinout-analysis.md) | PCBレイアウト解析とGPIO最適配置 |
 
+### ミーティング議事録（docs/meetings/）
+
+| ドキュメント | 内容 |
+|------------|------|
+| [meeting-2025-10-17-progress-review.md](docs/meetings/meeting-2025-10-17-progress-review.md) | **進捗共有ミーティング議事録（2025-10-17）** |
+
 ### 開発ノート（notes/）
 
 | ドキュメント | 内容 |
 |------------|------|
-| [meeting-2025-10-17-progress-review.md](notes/meeting-2025-10-17-progress-review.md) | **進捗共有ミーティング議事録（2025-10-17）** |
 | [arduino-pullup-resistor-lecture.md](notes/arduino-pullup-resistor-lecture.md) | Arduinoプルアップ抵抗基礎講義 |
 | [tx-rx-connector-pinout-instructions-2025-10-17.md](notes/tx-rx-connector-pinout-instructions-2025-10-17.md) | TX/RXピンアウトと4極ジャック配線 |
 | [winch-stepper-trace-width-analysis.md](notes/winch-stepper-trace-width-analysis.md) | ステッパートレース幅解析 |
