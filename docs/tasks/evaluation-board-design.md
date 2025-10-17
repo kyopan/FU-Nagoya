@@ -99,13 +99,17 @@
 | **真鍮ワイヤー** | Φ1mm × 12本（円環状配置、6本ずつGrid/GY85に接続） |
 
 #### RP2040 ピンアサイン（固定）
-| ピン名 | GPIO | 用途 | 備考 |
-|--------|------|------|------|
-| TX | GPIO0 | UART送信 | ESD保護回路必須 |
-| RX | GPIO1 | UART受信 | ESD保護回路必須 |
-| NeoPixel | GPIO29 | NeoPixel制御 | 固定 |
-| SDA | 自由 | I2C データ | Grid-EYE・GY-85共通 |
-| SCL | 自由 | I2C クロック | Grid-EYE・GY-85共通 |
+| ピン名 | GPIO | 用途 | 接続先 | 備考 |
+|--------|------|------|--------|------|
+| TX | GPIO0 | UART送信 | ジャック「RX from Winch」 | ESD保護回路必須、クロス接続 |
+| RX | GPIO1 | UART受信 | ジャック「TX from Winch」 | ESD保護回路必須、クロス接続 |
+| NeoPixel | GPIO29 | NeoPixel制御 | NeoPixel Din | 固定 |
+| SDA | 自由 | I2C データ | Grid-EYE・GY-85共通 | プルアップ抵抗 |
+| SCL | 自由 | I2C クロック | Grid-EYE・GY-85共通 | プルアップ抵抗 |
+
+**重要**: ウィンチ（Primary）とのUART通信は**クロス接続**が必須
+- ウィンチのTX → RP2040のRX (GPIO1)
+- ウィンチのRX → RP2040のTX (GPIO0)
 
 #### 真鍮ワイヤー配置（12本）
 - **配置パターン**: eval_board.pngのPitch Ringに示されたピンク・オレンジドットの円環状配置に従う
@@ -113,6 +117,40 @@
   - 6本 → Grid Ring
   - 6本 → GY85 Ring
 - **信号**: 各6本とも同じ信号（24V, GND, SDA, SCL, NEO Din, NEO Dout）
+
+#### 4極ステレオジャックのピン配置（安全性重視）
+
+| ピン位置 | 信号名 | RP2040接続 | 備考 |
+|---------|--------|-----------|------|
+| **先端 (Tip)** | 24V | - | 最初に接触（抜き差し時の安全性） |
+| **リング1 (Ring1)** | TX from Winch | RX (GPIO1) | クロス接続 |
+| **リング2 (Ring2)** | RX from Winch | TX (GPIO0) | クロス接続 |
+| **根元 (Sleeve)** | GND | GND | 最後に接触（24V短絡防止） |
+
+**設計理由:**
+- 抜き差し時、先端から順に接触していく
+- 24Vを先端にすることで、GNDとの短絡リスクを低減
+- GNDを根元（最後に接触）にすることで、24Vの誤接触を防止
+
+#### シルク印刷の表記
+
+4極ステレオジャック付近のシルク印刷:
+
+```
+Tip:    24V
+Ring1:  TX ← (from Winch)
+Ring2:  RX ← (from Winch)
+Sleeve: GND
+```
+
+または
+
+```
+TX from Winch → (to RP2040 RX)
+RX from Winch → (to RP2040 TX)
+```
+
+**ポイント**: Secondary側（評価ボード）のPCBだけ見ても接続が明確になるよう表記
 
 ---
 
@@ -303,6 +341,7 @@ GY85 Ring:  6本（Pitch Ringへ）
 | 資料名                     | リンク                                                                                                                                      | 用途                     |
 | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
 | **評価ボード3層構造図**      | [eval_board.png](../../notes/eval_board.png) | 3層基板構造・真鍮ワイヤー配置パターン |
+| **TX/RXピンアサイン指示** | [tx-rx-connector-pinout-instructions-2025-10-17.md](../../notes/tx-rx-connector-pinout-instructions-2025-10-17.md) | UART通信・4極ジャックピン配置・シルク印刷 |
 | **V1 EasyEDAファイル**      | [https://pro.easyeda.com/editor#id=91112fbff8f44189b064c06750374ec7](https://pro.easyeda.com/editor#id=91112fbff8f44189b064c06750374ec7) | 回路設計・PCBレイアウトの参考（7枚構成） |
 | **RP2040 仕様書**          | WaveShare公式                                                                                                                              | ピンアサイン確認               |
 | **NeoPixel 2mm角データシート** | Adafruit公式                                                                                                                               | LED配置・電源仕様             |
