@@ -29,12 +29,12 @@
 | **7** | 7 | - | 未使用（予備） |
 | **15** | 15 | - | 未使用（予備） |
 | **16** | 16 | - | 未使用（予備） |
-| **17** | 17 | **UART2_TX** 🔵 | TMC2209診断（Serial2） |
-| **18** | 18 | **UART2_RX** 🔵 | TMC2209診断（Serial2） |
-| **8** | 8 | **UART1_TX** 🟢 | 筒側通信（Serial1） |
+| **17** | 17 | **TMC_TX** 🔵 | TMC2209診断（Serial2） |
+| **18** | 18 | **TMC_RX** 🔵 | TMC2209診断（Serial2） |
+| **8** | 8 | **TUBE_TX** 🟢 | 筒側通信（Serial1） |
 | **3** | 3 | - | 未使用（Strapping Pin） |
 | **46** | 46 | - | 未使用（Strapping Pin） |
-| **9** | 9 | **UART1_RX** 🟢 | 筒側通信（Serial1） |
+| **9** | 9 | **TUBE_RX** 🟢 | 筒側通信（Serial1） |
 | **10** | 10 | **TMC2209_EN** 🟡 | ステッパーイネーブル |
 | **11** | 11 | **TMC2209_MS1** 🟡 | マイクロステップ設定 |
 | **12** | 12 | **TMC2209_MS2** 🟡 | マイクロステップ設定 |
@@ -88,8 +88,8 @@
 
 | GPIO | 信号 | ボード位置 |
 |------|------|----------|
-| **8** | TX | 左側ヘッダー中央上部 |
-| **9** | RX | 左側ヘッダー中央下部 |
+| **8** | TUBE_TX | 左側ヘッダー中央上部 |
+| **9** | TUBE_RX | 左側ヘッダー中央下部 |
 
 **仕様**:
 - ボーレート: 38400 baud
@@ -125,8 +125,8 @@
 
 | GPIO | 信号 | ボード位置 |
 |------|------|----------|
-| **17** | TX | 左側ヘッダー中央上部 |
-| **18** | RX | 左側ヘッダー中央上部 |
+| **17** | TMC_TX | 左側ヘッダー中央上部 |
+| **18** | TMC_RX | 左側ヘッダー中央上部 |
 
 **仕様**:
 - ボーレート: 115200 baud
@@ -270,15 +270,15 @@ RX
 ### 使用中GPIO詳細
 ```
 GPIO 2:  SOLENOID (ブレーキ)
-GPIO 8:  UART1_TX (筒側通信)
-GPIO 9:  UART1_RX (筒側通信)
+GPIO 8:  TUBE_TX (筒側通信)
+GPIO 9:  TUBE_RX (筒側通信)
 GPIO 10: TMC2209_EN
 GPIO 11: TMC2209_MS1
 GPIO 12: TMC2209_MS2
 GPIO 13: TMC2209_STEP
 GPIO 14: TMC2209_DIR
-GPIO 17: UART2_TX (TMC2209診断)
-GPIO 18: UART2_RX (TMC2209診断)
+GPIO 17: TMC_TX (TMC2209診断)
+GPIO 18: TMC_RX (TMC2209診断)
 GPIO 35: LED_PWM (Winch照明)
 GPIO 38: LED_C (Winch照明)
 GPIO 48: NeoPixel (ステータス)
@@ -295,12 +295,12 @@ GPIO 1, 4-7, 15-16, 21, 36-37, 47
 
 ```cpp
 // UART1（筒側通信）
-#define UART1_TX_PIN 8
-#define UART1_RX_PIN 9
+#define TUBE_TX 8
+#define TUBE_RX 9
 
 // UART2（TMC2209通信）
-#define UART2_TX_PIN 17
-#define UART2_RX_PIN 18
+#define TMC_TX 17
+#define TMC_RX 18
 
 // TMC2209制御
 #define TMC2209_EN 10
