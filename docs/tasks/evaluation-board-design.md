@@ -50,6 +50,16 @@
 
 **構造**: Pitch Ringを中心に、Grid RingとGY85 Ringが真鍮ワイヤーで接続される3層構造
 
+#### 3層基板構造イメージ
+
+![評価ボード3層構造](../../notes/eval_board.png)
+
+*図: 評価ボードの3層構造（Grid Ring、Pitch Ring、GY85 Ring）*
+
+- **Pitch Ring中央**: RP2040マイコン、4極ステレオプラグ、12本の真鍮ワイヤー（円環状配置）
+- **Grid Ring/GY85 Ring**: 各センサー＋24個のNeoPixel、6本の真鍮ワイヤーでPitch Ringに接続
+- **ワイヤー配置**: Pitch Ringのピンク・オレンジドットパターンに従った円環状配置
+
 ---
 
 ### 1️⃣ Grid Ring（IRセンサ基板）
