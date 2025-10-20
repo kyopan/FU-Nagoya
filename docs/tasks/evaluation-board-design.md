@@ -94,7 +94,7 @@ graph TB
 
     subgraph PitchRing["⭐ Pitch Ring（メイン制御基板）"]
         Jack[4極ステレオジャック<br/>Tip: 24V<br/>Ring1: TX from Winch<br/>Ring2: RX from Winch<br/>Sleeve: GND]
-        RP2040[RP2040 マイコン<br/>GPIO0: TX<br/>GPIO1: RX クロス接続<br/>GPIO29: NeoPixel<br/>I2C0: GPIO4/5 GY-85<br/>I2C1: GPIO26/27 Grid-EYE]
+        RP2040[RP2040 マイコン<br/>GPIO0: TX<br/>GPIO1: RX クロス接続<br/>GPIO29: NeoPixel<br/>I2C0: SDA=GPIO4 SCL=GPIO5 GY-85<br/>I2C1: SDA=GPIO26 SCL=GPIO27 Grid-EYE]
         DCDC5V[DCDC 5V 2A<br/>NeoPixel電源]
         NeoPitch[NeoPixel ×48<br/>表24個＋裏24個]
         WirePitch[真鍮ワイヤー ×12<br/>Grid用6本<br/>GY85用6本]
