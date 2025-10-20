@@ -102,14 +102,14 @@ graph TB
     end
 
     subgraph GridRing["🌡️ Grid Ring（IRセンサ基板）"]
-        WireGrid[真鍮ワイヤー ×6<br/>24V/GND/SDA/SCL<br/>NEO Din/Dout]
+        WireGrid[真鍮ワイヤー ×6<br/>24V/GND<br/>SDA1 GPIO26/SCL1 GPIO27<br/>NEO Din/Dout]
         DCDC3V_G[DCDC 3.3V 100mA<br/>Grid-EYE電源]
         GridEye[Grid-EYE<br/>AMG8833<br/>8×8 IRセンサ<br/>I2C: 0x68/0x69]
         NeoGrid[NeoPixel ×24<br/>裏面のみ]
     end
 
     subgraph GY85Ring["📐 GY85 Ring（IMUセンサ基板）"]
-        WireGY[真鍮ワイヤー ×6<br/>24V/GND/SDA/SCL<br/>NEO Din/Dout]
+        WireGY[真鍮ワイヤー ×6<br/>24V/GND<br/>SDA0 GPIO4/SCL0 GPIO5<br/>NEO Din/Dout]
         DCDC3V_GY[DCDC 3.3V 100mA<br/>GY-85電源]
         GY85[GY-85 IMU<br/>9軸センサ<br/>I2C: 複数アドレス]
         NeoGY[NeoPixel ×24<br/>裏面のみ]
