@@ -94,7 +94,7 @@ graph TB
 
     subgraph PitchRing["⭐ Pitch Ring（メイン制御基板）"]
         Jack[4極ステレオジャック<br/>Tip: 24V<br/>Ring1: TX from Winch<br/>Ring2: RX from Winch<br/>Sleeve: GND]
-        RP2040[RP2040 マイコン<br/>GPIO0: TX<br/>GPIO1: RX クロス接続<br/>GPIO29: NeoPixel<br/>SDA/SCL: I2C]
+        RP2040[RP2040 マイコン<br/>GPIO0: TX<br/>GPIO1: RX クロス接続<br/>GPIO29: NeoPixel<br/>I2C0: GPIO4/5 GY-85<br/>I2C1: GPIO26/27 Grid-EYE]
         DCDC5V[DCDC 5V 2A<br/>NeoPixel電源]
         NeoPitch[NeoPixel ×48<br/>表24個＋裏24個]
         WirePitch[真鍮ワイヤー ×12<br/>Grid用6本<br/>GY85用6本]
@@ -125,19 +125,20 @@ graph TB
     DCDC5V -->|5V| NeoPitch
     DCDC5V -->|5V| RP2040
     RP2040 -->|GPIO29<br/>シリアルデータ| NeoPitch
-    RP2040 -->|SDA/SCL| WirePitch
+    RP2040 -->|I2C0 GPIO4/5| WirePitch
+    RP2040 -->|I2C1 GPIO26/27| WirePitch
 
     %% Pitch Ring → Grid Ring
-    WirePitch -->|6本<br/>24V/GND<br/>SDA/SCL<br/>NEO Din/Dout| WireGrid
+    WirePitch -->|6本<br/>24V/GND<br/>SDA1/SCL1<br/>NEO Din/Dout| WireGrid
     WireGrid -->|24V/GND| DCDC3V_G
-    WireGrid -->|SDA/SCL| GridEye
+    WireGrid -->|I2C1 GPIO26/27| GridEye
     WireGrid -->|NEO Din| NeoGrid
     DCDC3V_G -->|3.3V| GridEye
 
     %% Pitch Ring → GY85 Ring
-    WirePitch -->|6本<br/>24V/GND<br/>SDA/SCL<br/>NEO Din/Dout| WireGY
+    WirePitch -->|6本<br/>24V/GND<br/>SDA0/SCL0<br/>NEO Din/Dout| WireGY
     WireGY -->|24V/GND| DCDC3V_GY
-    WireGY -->|SDA/SCL| GY85
+    WireGY -->|I2C0 GPIO4/5| GY85
     WireGY -->|NEO Din| NeoGY
     DCDC3V_GY -->|3.3V| GY85
 
@@ -173,13 +174,15 @@ graph TB
 
 2. **通信系統**:
    - **UART**: ウィンチ↔RP2040（クロス接続、ESD保護）
-   - **I2C**: RP2040↔Grid-EYE/GY-85（共通バス、真鍮ワイヤー経由）
+   - **I2C0（GPIO4/5）**: RP2040↔GY-85（真鍮ワイヤー経由）
+   - **I2C1（GPIO26/27）**: RP2040↔Grid-EYE（真鍮ワイヤー経由）
    - **NeoPixel**: 144個直列（Pitch 48個→Grid 24個→GY85 24個）
 
 3. **真鍮ワイヤー**:
    - 構造支持と信号伝送を兼ねる
    - Pitch Ring: 12本（Grid用6本＋GY85用6本）
-   - Grid/GY85 Ring: 各6本（24V/GND/SDA/SCL/NEO Din/Dout）
+   - Grid Ring: 6本（24V/GND/SDA1/SCL1/NEO Din/Dout）
+   - GY85 Ring: 6本（24V/GND/SDA0/SCL0/NEO Din/Dout）
 
 ---
 

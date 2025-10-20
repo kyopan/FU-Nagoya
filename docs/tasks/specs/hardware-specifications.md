@@ -57,7 +57,8 @@
 | クロック | 133MHz（デュアルコアARM Cortex-M0+） |
 | メモリ | 264KB SRAM |
 | GPIO | GPIO0=TX, GPIO1=RX, GPIO29=NeoPixel |
-| I2C | SDA/SCL（内部プルアップ使用） |
+| I2C0 | GPIO4=SDA0, GPIO5=SCL0（GY-85用、内部プルアップ） |
+| I2C1 | GPIO26=SDA1, GPIO27=SCL1（Grid-EYE用、内部プルアップ） |
 
 #### コネクタ
 
@@ -76,12 +77,14 @@
 
 | 信号 | 本数 | 接続先 | 備考 |
 |------|------|--------|------|
-| 24V | 2本 | Grid Ring | 電源供給 |
-| GND | 2本 | Grid Ring | グランド |
-| SDA | 1本 | Grid Ring | I2C（Grid-EYE） |
-| SCL | 1本 | Grid Ring | I2C（Grid-EYE） |
-| NeoPixel Data | 1本 | Grid Ring | シリアルデータ |
-| 予備 | 5本 | - | 将来拡張用 |
+| 24V | 2本 | Grid Ring + GY85 Ring | 電源供給 |
+| GND | 2本 | Grid Ring + GY85 Ring | グランド |
+| SDA1（GPIO26） | 1本 | Grid Ring | I2C1（Grid-EYE） |
+| SCL1（GPIO27） | 1本 | Grid Ring | I2C1（Grid-EYE） |
+| SDA0（GPIO4） | 1本 | GY85 Ring | I2C0（GY-85） |
+| SCL0（GPIO5） | 1本 | GY85 Ring | I2C0（GY-85） |
+| NeoPixel Data | 1本 | Grid Ring → GY85 Ring | シリアルデータ |
+| 予備 | 3本 | - | 将来拡張用 |
 
 #### NeoPixel配置
 
@@ -132,8 +135,8 @@
 |------|------|--------|--------|
 | 24V | 1本 | Pitch Ring | DCDC入力 |
 | GND | 1本 | Pitch Ring | グランド |
-| SDA | 1本 | Pitch Ring | Grid-EYE |
-| SCL | 1本 | Pitch Ring | Grid-EYE |
+| SDA1（GPIO26） | 1本 | Pitch Ring | Grid-EYE（I2C1） |
+| SCL1（GPIO27） | 1本 | Pitch Ring | Grid-EYE（I2C1） |
 | NeoPixel In | 1本 | Pitch Ring | NeoPixel入力 |
 | NeoPixel Out | 1本 | GY85 Ring | NeoPixel出力 |
 
@@ -186,10 +189,10 @@
 
 | 信号 | 本数 | 接続元 | 備考 |
 |------|------|--------|------|
-| 24V | 1本 | Grid Ring（経由Pitch Ring） | DCDC入力 |
-| GND | 1本 | Grid Ring | グランド |
-| SDA | 1本 | Grid Ring（経由Pitch Ring） | GY-85 |
-| SCL | 1本 | Grid Ring（経由Pitch Ring） | GY-85 |
+| 24V | 1本 | Pitch Ring（直接） | DCDC入力 |
+| GND | 1本 | Pitch Ring（直接） | グランド |
+| SDA0（GPIO4） | 1本 | Pitch Ring（直接） | GY-85（I2C0） |
+| SCL0（GPIO5） | 1本 | Pitch Ring（直接） | GY-85（I2C0） |
 | NeoPixel In | 1本 | Grid Ring | NeoPixel入力 |
 | 予備 | 1本 | - | 将来拡張用 |
 
@@ -215,26 +218,26 @@
 
 ## 🔌 ワイヤ信号詳細
 
-### Pitch Ring → Grid Ring（12本）
-
-| # | 信号名 | 電圧/プロトコル | 用途 |
-|---|--------|----------------|------|
-| 1-2 | 24V | 24VDC | 電源供給 |
-| 3-4 | GND | - | グランド |
-| 5 | SDA | I2C 3.3V | Grid-EYE通信 |
-| 6 | SCL | I2C 3.3V | Grid-EYE通信 |
-| 7 | NeoPixel Data | 5V | LED制御 |
-| 8-12 | 予備 | - | 将来拡張用 |
-
-### Grid Ring → GY85 Ring（6本）
+### Pitch Ring → Grid Ring（6本）
 
 | # | 信号名 | 電圧/プロトコル | 用途 |
 |---|--------|----------------|------|
 | 1 | 24V | 24VDC | 電源供給 |
 | 2 | GND | - | グランド |
-| 3 | SDA | I2C 3.3V | GY-85通信 |
-| 4 | SCL | I2C 3.3V | GY-85通信 |
+| 3 | SDA1（GPIO26） | I2C1 3.3V | Grid-EYE通信 |
+| 4 | SCL1（GPIO27） | I2C1 3.3V | Grid-EYE通信 |
 | 5 | NeoPixel Data | 5V | LED制御 |
+| 6 | NeoPixel Data Out | 5V | GY85 Ringへ |
+
+### Pitch Ring → GY85 Ring（6本）
+
+| # | 信号名 | 電圧/プロトコル | 用途 |
+|---|--------|----------------|------|
+| 1 | 24V | 24VDC | 電源供給 |
+| 2 | GND | - | グランド |
+| 3 | SDA0（GPIO4） | I2C0 3.3V | GY-85通信 |
+| 4 | SCL0（GPIO5） | I2C0 3.3V | GY-85通信 |
+| 5 | NeoPixel Data In | 5V | Grid Ringから |
 | 6 | 予備 | - | 将来拡張用 |
 
 ---
