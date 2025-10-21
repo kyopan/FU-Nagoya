@@ -1,9 +1,9 @@
 # PCB シルクスクリーン命名規則
 
-**バージョン**: 1.1.0
+**バージョン**: 1.2.0
 **最終更新**: 2025-10-21
 **適用対象**: FU-Nagoya 全基板（Grid Ring, Pitch Ring, GY85 Ring, Winch等）
-**更新内容**: ブリッジ接続端子のラベル位置・向き一致ルールを追加
+**更新内容**: UART端子表記を矢印 + シンプル表記（業界標準準拠）に変更
 
 ---
 
@@ -22,26 +22,31 @@ PCBシルクスクリーン（シルク印刷）の命名規則を統一し、�
 
 ### 原則1: 信号方向の明示
 
-**信号の流れを「from」で表記する**
+**矢印 + 接続先で信号の流れを明示する**
 
 ```
-TX from Winch  → ウィンチから送信される信号
-RX from Winch  → ウィンチから受信される信号
+Winch TX →  （ウィンチのTX端子から来る信号）
+Winch RX ←  （ウィンチのRX端子へ送る信号）
 ```
+
+**理由:**
+- 業界標準（TX/RX は自分視点）に準拠
+- 矢印で信号方向を視覚化
+- 汎用コネクタでも接続先が明確
 
 **✅ 正しい例:**
 ```
-TX from Winch
-RX from Winch
-24V from Power Supply
+Winch TX →
+Winch RX ←
+24V
 GND
 ```
 
 **❌ 悪い例:**
 ```
-TX (どこから？)
+TX (どこの？方向は？)
 WINCH TX (ウィンチのTX？基板のTX？)
-(from Winch) (TXなのかRXなのか不明)
+TX from Winch (冗長、スペース不足)
 ```
 
 ### 原則2: 基板視点での記述
@@ -49,7 +54,7 @@ WINCH TX (ウィンチのTX？基板のTX？)
 **その基板から見た信号名を記載する**
 
 - **Secondary（筒・評価ボード）の場合:**
-  - コネクタ付近: `TX from Winch`, `RX from Winch`
+  - コネクタ付近: `Winch TX →`, `Winch RX ←`
   - マイコンピン: クロス接続を明記
 
 - **Primary（ウィンチ）の場合:**
@@ -149,18 +154,18 @@ WINCH_GND
 │  4極ステレオジャック     │
 │  ┌─┐                    │
 │  │ │ Tip    → 24V       │
-│  │ │ Ring1  → TX from Winch │
-│  │ │ Ring2  → RX from Winch │
+│  │ │ Ring1  → Winch TX → │
+│  │ │ Ring2  → Winch RX ← │
 │  │ │ Sleeve → GND       │
 │  └─┘                    │
 └─────────────────────────┘
 ```
 
-**または矢印表記:**
+**別の表記方法:**
 
 ```
-TX ← (矢印でウィンチ方向を示す)
-RX ← (矢印でウィンチ方向を示す)
+← Winch TX  （ウィンチのTXから受信）
+→ Winch RX  （ウィンチのRXへ送信）
 ```
 
 **RP2040マイコンピン付近のシルク表記:**
@@ -177,9 +182,9 @@ RP2040
 **クロス接続の明示:**
 
 ```
-ジャック側           マイコン側
-TX from Winch  →  RP2040 RX (GPIO1)
-RX from Winch  →  RP2040 TX (GPIO0)
+ジャック側         マイコン側
+Winch TX →    →  RP2040 RX (GPIO1)
+Winch RX ←    ←  RP2040 TX (GPIO0)
 ```
 
 #### Primary側（ウィンチ）
@@ -347,19 +352,19 @@ SENSOR_INT
 
 - [ ] **4極ステレオジャックのピン配置**
   - [ ] 先端 (Tip) = 24V
-  - [ ] リング1 = TX from Winch
-  - [ ] リング2 = RX from Winch
+  - [ ] リング1 = Winch TX → (ウィンチのTXから来る信号)
+  - [ ] リング2 = Winch RX ← (ウィンチのRXへ送る信号)
   - [ ] 根元 (Sleeve) = GND
 
 - [ ] **シルク印刷**
-  - [ ] ジャック付近に「TX from Winch」「RX from Winch」と表記
-  - [ ] または矢印でウィンチ方向を明示
+  - [ ] ジャック付近に「Winch TX →」「Winch RX ←」と表記
+  - [ ] 矢印で信号方向を明示
   - [ ] フォントサイズ: 1.0mm以上
   - [ ] 線幅: 0.15mm以上
 
 - [ ] **RP2040ピンアサイン**
-  - [ ] ジャックの「TX from Winch」→ RP2040の**RX (GPIO1)**
-  - [ ] ジャックの「RX from Winch」→ RP2040の**TX (GPIO0)**
+  - [ ] ジャックの「Winch TX →」→ RP2040の**RX (GPIO1)**
+  - [ ] ジャックの「Winch RX ←」→ RP2040の**TX (GPIO0)**
   - [ ] クロス接続を確認
   - [ ] マイコンピン付近にシルク表記
 
@@ -458,18 +463,24 @@ RX (受信)
 
 ## トラブルシューティング
 
-### Q: 「TX from Winch」が長すぎてスペースに入らない
+### Q: 「Winch TX →」が長すぎてスペースに入らない
 
 **A**: 略記ルールを使用:
 ```
-TX_W
-RX_W
+W_TX →
+W_RX ←
+```
+
+または矢印のみ:
+```
+← TX
+→ RX
 ```
 
 基板裏面に詳細説明を追加:
 ```
-TX_W = TX from Winch
-RX_W = RX from Winch
+W_TX = Winch TX (ウィンチのTXから来る信号)
+W_RX = Winch RX (ウィンチのRXへ送る信号)
 ```
 
 ### Q: Primary/Secondaryの判断に迷う
@@ -491,8 +502,10 @@ RX (受信)
 
 | 既存表記 | 新規則 |
 |---------|-------|
-| WINCH TX | TX from Winch |
-| WINCH RX | RX from Winch |
+| WINCH TX | Winch TX → |
+| WINCH RX | Winch RX ← |
+| TX from Winch | Winch TX → |
+| RX from Winch | Winch RX ← |
 | VCC | 24V |
 
 新規基板から新ルールを適用。
@@ -509,6 +522,12 @@ RX (受信)
 ---
 
 ## 変更履歴
+
+- v1.2.0 (2025-10-21): **UART端子表記を矢印 + シンプル表記に変更**
+  - 原則1: 「TX from Winch」→「Winch TX →」に変更（業界標準準拠）
+  - 矢印で信号方向を視覚化
+  - スペース効率向上
+  - 設計チェックリスト、トラブルシューティング、対応表を更新
 
 - v1.1.0 (2025-10-21): ブリッジ接続端子ルールを追加
   - 原則4: ブリッジ接続端子のラベル位置・向き一致ルールを追加
