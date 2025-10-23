@@ -58,6 +58,22 @@
 
 詳細: [評価ボード配線ディスカッション](../../notes/audio-transcriptions/evaluation-board-wiring-discussion.md#⚠️-重要な設計変更2025-10-23-午後)
 
+#### 配線図（最新）
+
+![評価ボード配線図](../../notes/evaluation-board-wiring-diagram-2025-10-23.png)
+
+*図: 評価ボードの最新配線図（2025-10-23）*
+
+**配線図の読み方**:
+- **上段（Actual wiring）**: 実際の真鍮線配線とコンポーネント配置
+  - 青線: NEO Din（PR → GR のみ、**CR側は "Not connected"**）
+  - オレンジ線: NEO Dout（GR → PR → CR）
+  - 赤線: 5V電源、黒線: GND
+  - 緑・黄線: I2C通信（SDA0/SCL0, SDA1/SCL1）
+- **下段（Wiring diagram）**: NeoPixelチェーン144個の論理接続
+  - GRF→GRB (49-96) → PRF→PRB (1-48) → CRF→CRB (97-144)
+  - RP2040 GPIO29からの信号フロー
+
 ---
 
 ### 基板構成概要
