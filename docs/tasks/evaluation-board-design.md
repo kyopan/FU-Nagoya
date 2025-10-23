@@ -37,42 +37,72 @@
 
 ## 🔧 ハードウェア仕様
 
-### ⚠️ 重要な設計変更（2025-10-23 午後）
+### ⚠️ 重要な設計変更（2025-10-23 最終版）
 
-**NeoPixel真鍮線1配線を部分配線に変更**:
+#### 根本的な問題の発見
+**PRとCR/GRの配線がNeoPixelのDin/Doutにぶつかる問題**を確認。
+
+#### 最終解決策: スルーホール接続方式
+
+**PRのNeoPixel貫通穴を削除**し、スルーホール接続に変更:
 
 ```
-❌ 変更前（貫通配線）:
-  真鍮線1: PRR.NEOs2.DOUT → GRF.NEOs3.DIN → CRF.NEOs5.DIN
-  問題: GRとCRが同時点灯（個別制御不可）
+✅ 新しい配線方式（スルーホール接続）:
 
-✅ 変更後（部分配線）:
-  真鍮線1: PRR.NEOs2.DOUT → GRF.NEOs3.DIN
-  改善: PR ↔ GR のみ接続、CRには接続しない
+W2_3: PRF ↔ GRB
+W4_5（PRの左右2箇所）:
+  - GRB ↔ PRF
+  - PRG ↔ CRF
+W_6: CRF ↔ GRB
 ```
 
-**追加改善**:
-- **PR配線最適化**: 真鍮線1端子をPRR.NEOs2.DOUTの最寄り位置に配置（配線コスト削減）
-- **PR真鍮線1端子を2端子化**: GR接続用とCR接続用をジャンパー選択可能に
-- **シルクラベル改善**: PRR/PRF/GRF/CRF等を大きく表示（視認性向上）
+**基板構成の重要な変更**:
+- **GR/CR共用基板**: GridEyeとCompassは同じ基板の表裏を使い回し
+  - 表面: **GRF** (GridEye Ring Front)
+  - 裏面: **CRB** (Compass Ring Back)
+
+**廃案**:
+- ❌ スライドスイッチによるGR/CR切り替え案 → スルーホール接続方式を採用
 
 詳細: [評価ボード配線ディスカッション](../../notes/audio-transcriptions/evaluation-board-wiring-discussion.md#⚠️-重要な設計変更2025-10-23-午後)
 
-#### 配線図（最新）
+#### 配線図（最新 - スルーホール接続方式）
 
-![評価ボード配線図](../../notes/evaluation-board-wiring-diagram-2025-10-23.png)
+![実際の配線](../../notes/actuar-wiring-2025-10-23.png)
 
-*図: 評価ボードの最新配線図（2025-10-23）*
+*図1: 実際の配線（Actual wiring）- スルーホール接続方式*
+
+![配線ダイアグラム](../../notes/wiring-diagram-2025-10-23.png)
+
+*図2: 配線ダイアグラム（Wiring diagram）- NeoPixelチェーン全体図*
 
 **配線図の読み方**:
-- **上段（Actual wiring）**: 実際の真鍮線配線とコンポーネント配置
-  - 青線: NEO Din（PR → GR のみ、**CR側は "Not connected"**）
-  - オレンジ線: NEO Dout（GR → PR → CR）
-  - 赤線: 5V電源、黒線: GND
-  - 緑・黄線: I2C通信（SDA0/SCL0, SDA1/SCL1）
-- **下段（Wiring diagram）**: NeoPixelチェーン144個の論理接続
-  - GRF→GRB (49-96) → PRF→PRB (1-48) → CRF→CRB (97-144)
-  - RP2040 GPIO29からの信号フロー
+- **図1（Actual wiring）**: 実際のスルーホール配線とコンポーネント配置
+  - スルーホール接続: W2_3, W4_5（左右2箇所）, W_6
+  - 電源: 5V（赤線）、GND（黒線）
+  - I2C通信: SDA0/SCL0, SDA1/SCL1
+  - NeoPixel信号: Din/Dout接続
+- **図2（Wiring diagram）**: NeoPixelチェーン144個の論理接続と信号フロー
+
+#### 基板レイアウト画像
+
+**Pitch Ring（PR）**:
+
+![PRF - Pitch Ring Front](../../notes/PRF.png)
+*PRF: Pitch Ring Front（RP2040、4極ジャック、スルーホール接続端子）*
+
+![PRB - Pitch Ring Back](../../notes/PRB.png)
+*PRB: Pitch Ring Back（NeoPixel配置、スルーホール接続端子）*
+
+**GridEye/Compass 共用基板**:
+
+![GRF - GridEye Ring Front](../../notes/GRF.png)
+*GRF: GridEye Ring Front（Grid-EYEセンサー、NeoPixel配置）*
+
+![CRB - Compass Ring Back](../../notes/CRB.png)
+*CRB: Compass Ring Back（GY-85 IMUセンサー、NeoPixel配置）*
+
+**注**: GRFとCRBは同じ基板の表裏を使用
 
 ---
 
