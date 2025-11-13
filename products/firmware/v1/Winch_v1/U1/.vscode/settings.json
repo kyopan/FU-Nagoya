@@ -1,0 +1,32 @@
+{
+    "files.associations": {
+        "*.tpl": "html",
+        "*.ino": "cpp",
+        "*.h": "cpp",
+        "random": "cpp",
+        "cmath": "cpp"
+    },
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: Google, IndentWidth: 2, ColumnLimit: 100 }",
+    "platformio.autoRebuild": false,
+    "platformio.forceUploadAndMonitor": false,
+    "[cpp]": {
+        "editor.defaultFormatter": "ms-vscode.cpptools"
+    },
+    "[c]": {
+        "editor.defaultFormatter": "ms-vscode.cpptools"
+    },
+    "files.exclude": {
+        "**/.pio": true,
+        "**/.vscode/.browse.c_cpp.db*": true,
+        "**/.vscode/ipch": true
+    },
+    "search.exclude": {
+        "**/.pio": true
+    },
+    "files.watcherExclude": {
+        "**/.pio/**": true
+    }
+}

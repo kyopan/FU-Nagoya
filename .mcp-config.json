@@ -1,0 +1,46 @@
+{
+  "projectName": "nagoya-tube-installation",
+  "description": "FU-Nagoya - 名古屋チューブインスタレーション",
+  "mcpPolicy": {
+    "allowed": [
+      "slack",
+      "github",
+      "serena"
+    ],
+    "strictMode": false,
+    "confirmBeforeUse": []
+  },
+  "mcpConfigs": {
+    "slack": {
+      "defaultChannel": "C0806K7E9RD",
+      "teamId": "T07Q9RLN5EJ",
+      "documentationRefs": {
+        "api": "https://api.slack.com/docs",
+        "mcpServer": "https://github.com/modelcontextprotocol/servers/tree/main/src/slack",
+        "webhooks": "https://api.slack.com/messaging/webhooks",
+        "events": "https://api.slack.com/events-api"
+      },
+      "notes": "#fragmented_unity チャンネル (FU-Nagoyaプロジェクト本番)"
+    },
+    "github": {
+      "defaultRepo": "kyopan/FU-Nagoya",
+      "publicRepo": true,
+      "documentationRefs": {
+        "restApi": "https://docs.github.com/en/rest",
+        "mcpServer": "https://github.com/modelcontextprotocol/servers/tree/main/src/github",
+        "graphql": "https://docs.github.com/en/graphql"
+      },
+      "notes": "公開リポジトリ (外部共有用)"
+    },
+    "serena": {
+      "enabled": true,
+      "documentationRefs": {
+        "scope": "local",
+        "basePath": "/Users/kyopan/Dropbox (個人)/Obsidian/",
+        "description": "ローカルコードベース分析ツール。kyopan配下の全ファイルを把握"
+      },
+      "notes": "ファームウェア・回路設計分析"
+    }
+  },
+  "notes": "Slack + GitHub連携がメイン。技術ドキュメント共有、回路設計管理。"
+}

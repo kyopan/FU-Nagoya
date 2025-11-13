@@ -1,0 +1,122 @@
+{
+  "project": "FU@ComoNe Winch U1 Firmware",
+  "description": "ESP32-S3 based Winch controller firmware for interactive ceiling-mounted lighting system",
+  "context": {
+    "primary_docs": [
+      "U1_FIRMWARE_OVERVIEW.md",
+      "../../docs/specs/winch-u1-esp32s3-pinout.md",
+      ".claude/instructions.md"
+    ],
+    "reference_docs": [
+      "../../docs/specs/winch-circuit-design.md",
+      "../../notes/v1-analysis.md",
+      "../../TODO.md"
+    ],
+    "key_files": [
+      "src/main.cpp",
+      "src/mqttClient.cpp",
+      "src/otaUpdater.cpp",
+      "platformio.ini"
+    ]
+  },
+  "development": {
+    "framework": "Arduino + PlatformIO",
+    "target_board": "ESP32-S3-DevKitC-1",
+    "current_version": "v9",
+    "build_tool": "PlatformIO",
+    "language": "C++"
+  },
+  "tasks": {
+    "priority": "CRITICAL",
+    "deadline": "2025-10-24",
+    "phases": [
+      {
+        "name": "Phase 1: Pin Assignment Confirmation",
+        "tasks": [
+          "Review board schematic (EasyEDA/KiCad)",
+          "Verify I2C (GPIO 8/9) connections",
+          "Verify UART (GPIO 17/18) connections",
+          "Update winch-u1-esp32s3-pinout.md"
+        ]
+      },
+      {
+        "name": "Phase 2: Firmware Modification",
+        "tasks": [
+          "Update GPIO definitions in main.cpp",
+          "Verify Wire.begin() parameters",
+          "Verify Serial1.begin() parameters",
+          "Check platformio.ini configuration"
+        ]
+      },
+      {
+        "name": "Phase 3: Build & Upload",
+        "tasks": [
+          "Build firmware (pio run)",
+          "Upload to ESP32-S3 (pio run --target upload)",
+          "Monitor serial output (pio device monitor)"
+        ]
+      },
+      {
+        "name": "Phase 4: Communication Tests",
+        "tasks": [
+          "I2C test (U1 ↔ U2): Homing, Position, Downlight",
+          "UART test (U1 → U3): DATA packet, SPARK command",
+          "System integration test: MQTT → U2/U3"
+        ]
+      },
+      {
+        "name": "Phase 5: Documentation",
+        "tasks": [
+          "Update winch-u1-esp32s3-pinout.md",
+          "Update TODO.md",
+          "Run TODO sync script"
+        ]
+      }
+    ]
+  },
+  "testing": {
+    "i2c": {
+      "slave_address": "0x08",
+      "commands": {
+        "homing_status": "'H' (read 2 bytes)",
+        "position": "'Z' + LSB + MSB (uint16_t mm)",
+        "downlight": "'L' + level (uint8_t 0-255)",
+        "device_id": "'I' + deviceId (uint8_t)",
+        "spark": "'S' + LSB + MSB (uint16_t seconds)"
+      }
+    },
+    "uart": {
+      "baud_rate": 38400,
+      "format": "8N1",
+      "commands": {
+        "data_packet": "DATA,F,r,g,b,R,r,g,b,P,pitch,yaw,B,brightness,H,enc\\n",
+        "spark": "SPARK,<seconds>\\n",
+        "clear": "C\\n"
+      }
+    },
+    "mqtt": {
+      "topics": {
+        "led_color": "cl/<ID>",
+        "position_pose": "ps/<ID>",
+        "downlight": "dl/<ID>",
+        "autonomous": "at/<ID>",
+        "spark": "spark",
+        "reboot": "reboot"
+      }
+    }
+  },
+  "important_notes": [
+    "Current GPIO: 48=NeoPixel, 8/9=I2C, 17/18=UART",
+    "I2C requires pull-up resistors (4.7kΩ recommended)",
+    "UART TX/RX may need cross-connection depending on board design",
+    "System requires WiFi connection and MQTT broker",
+    "Homing must complete before accepting control commands",
+    "Device ID must be acquired from MQTT before full operation"
+  ],
+  "coding_style": {
+    "naming": "camelCase for variables, PascalCase for classes",
+    "indentation": "2 spaces",
+    "comments": "English preferred, Japanese acceptable for critical notes",
+    "serial_debug": "Use Serial.printf() for debug output"
+  }
+}

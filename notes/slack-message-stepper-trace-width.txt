@@ -1,0 +1,18 @@
+@suzukishohei
+
+PCB設計確認でステッパーモーター電源ラインのトレース幅について気になる点を見つけました。
+
+**現状**: 10mil
+**モーター仕様**: Nema 17 (17HS24-2004D-B070) - 定格電流 2.0A/相
+
+IPC-2221標準に基づくと、10milトレース（1oz銅箔）の許容電流は約0.5Aで、定格2.0Aに対して不足しています。
+
+**推奨変更**:
+- オプション1（1oz銅箔）: 最小35mil、推奨50mil
+- オプション2（2oz銅箔）: 最小18mil、推奨25mil
+
+過熱・電圧降下・信頼性のリスクがあるため、WPCBBでのトレース幅修正をご検討ください。
+
+詳細解析レポート: https://github.com/kyopan/FU-Nagoya/blob/main/notes/winch-stepper-trace-width-analysis.md
+
+#FU-Nagoya #PCB設計

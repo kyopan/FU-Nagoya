@@ -1,0 +1,30 @@
+{
+  "project_name": "FU-Nagoya (Fragmentations of Unity - Nagoya Installation)",
+  "slack_channel_id": "C0806K7E9RD",
+  "slack_channel_name": "fragmented_unity",
+  "doc_change_notification": {
+    "thread_ts": "1761018893.032439",
+    "channel_id": "C0806K7E9RD",
+    "thread_url": "https://kyopalab.slack.com/archives/C0806K7E9RD/p1761018893032439",
+    "description": "ドキュメント変更・削除通知専用スレッド（ピン留め済み）"
+  },
+  "mention_groups": {
+    "all": ["<@U02D0C76DJ6>", "<@U07V5Q2EX1V>"],
+    "hardware": ["<@U02D0C76DJ6>"],
+    "firmware": ["<@U07V5Q2EX1V>"]
+  },
+  "notification_settings": {
+    "milestone_completion": true,
+    "daily_summary": false,
+    "error_alerts": true,
+    "github_push": true,
+    "doc_change_notification": true
+  },
+  "metadata": {
+    "created_at": "2025-10-18",
+    "updated_at": "2025-10-21",
+    "description": "名古屋インスタレーションプロジェクト - Fragmentations of Unity",
+    "github_repo": "kyopan/FU-Nagoya",
+    "public_repo_path": "/Users/kyopan/Dropbox (個人)/Obsidian/project-repository/FU-Nagoya"
+  }
+}
