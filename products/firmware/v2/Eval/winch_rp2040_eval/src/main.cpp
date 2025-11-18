@@ -264,7 +264,23 @@ void performCalibration() {
     // Stop motor immediately
     stepper.stop();
 
-    // Set current position as zero (home)
+    // Move down slightly (50mm = 400 steps with 16 microsteps)
+    const long OFFSET_STEPS = -400;  // Negative for down direction
+    Serial.println("\nMoving 50mm down from sensor position...");
+
+    // Move to offset position with smooth motion
+    stepper.setMaxSpeed(HOMING_SPEED);
+    stepper.setAcceleration(1000);
+    stepper.move(OFFSET_STEPS);
+
+    // Wait for movement to complete
+    while (stepper.isRunning()) {
+      stepper.run();
+    }
+
+    Serial.println("Offset complete. Setting current position as zero.");
+
+    // Set current position as zero (home) AFTER the offset
     stepper.setCurrentPosition(0);
 
     Serial.println("=== CALIBRATION COMPLETE ===\n");
