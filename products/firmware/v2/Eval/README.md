@@ -282,12 +282,27 @@ sudo chmod 666 /dev/cu.usbserial-*
 pio device list
 ```
 
-#### RP2040: BOOTSELモード
+#### RP2040: 書き込み方法
+
+**通常の書き込み（BOOTSELボタン不要）:**
+```bash
+# PlatformIO picotoolが自動的にソフトリセットを実行
+pio run -d winch_rp2040_eval_test -t upload
+pio run -d tube_rp2040_eval_test -t upload
+```
+
+**BOOTSELモードが必要なケース（稀）:**
+- 初回書き込み時
+- USBデバイス認識失敗時
+- ファームウェアクラッシュ時
+
 ```bash
 1. BOOTSELボタンを押しながらUSB接続
 2. RP2040がストレージデバイスとして認識
 3. PlatformIOから書き込み実行
 ```
+
+**理由:** `platformio.ini`の`upload_protocol = picotool`により、PlatformIOが自動的にRP2040へリセットコマンドを送信してブートローダーモードに入ります。
 
 ---
 
