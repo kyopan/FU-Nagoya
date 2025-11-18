@@ -1,0 +1,4 @@
+
+# Large modeling files (>100MB) - excluded from GitHub
+products/modeling/v2/*.3dm
+products/modeling/v2/*.3dm.rhl
