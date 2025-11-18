@@ -42,7 +42,7 @@ v2ウインチ基板が正しく動作しない問題が発生したため、v1�
 
 ```bash
 # プロジェクトディレクトリに移動
-cd /Users/kyopan/Dropbox\ \(個人\)/Obsidian/kyopan/projects/fu/products/firmware/v2/Eval
+cd products/firmware/v2/Eval
 
 # ビルド
 pio run -d [プロジェクト名]
